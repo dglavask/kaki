@@ -1,0 +1,6 @@
+//<file> => <statement> & "\n" & <morest> ;
+//<morest> =>  <statement> & "\n" & <morest>  ;
+//<morest> => "" ;
+<statement> => <name> & <items> ;
+//<items> => <item> & <items> ;
+//<items> => "" ;

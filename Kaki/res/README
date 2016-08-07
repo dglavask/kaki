@@ -1,0 +1,21 @@
+Tokens
+Tokeniser
+Rules
+State Machine
+
+<statement> => <name> & <items> ;
+
+public bool statement(){
+	name();
+	items();
+}
+
+name of the rule
+position of each token
+left of token
+right of token
+
+start with a terminal
+search a rule that can produce the first terminal
+search a rule that can produce the first and the second terminal symbol
+etc...
