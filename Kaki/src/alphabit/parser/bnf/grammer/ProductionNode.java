@@ -1,4 +1,6 @@
-package alphabit.parser.bnf;
+package alphabit.parser.bnf.grammer;
+
+import alphabit.parser.bnf.GrammerNodeVisitor;
 
 public class ProductionNode implements GrammerNode{
 	private String value;
@@ -15,7 +17,7 @@ public class ProductionNode implements GrammerNode{
 		return GrammerNode.PRODUCTION_NODE;
 	}
 	
-	public void accept(ExpressionNodeVisitor visitor) {
+	public void accept(GrammerNodeVisitor visitor) {
 	    visitor.visit(this);
 	  }
 }

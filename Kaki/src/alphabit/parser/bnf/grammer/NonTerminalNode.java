@@ -1,4 +1,6 @@
-package alphabit.parser.bnf;
+package alphabit.parser.bnf.grammer;
+
+import alphabit.parser.bnf.GrammerNodeVisitor;
 
 public class NonTerminalNode implements GrammerNode{
 	private String identifier;	
@@ -16,7 +18,7 @@ public class NonTerminalNode implements GrammerNode{
 		return identifier.substring(1, identifier.length() - 1);
 	}
 
-	public void accept(ExpressionNodeVisitor visitor) {
+	public void accept(GrammerNodeVisitor visitor) {
 		// TODO Auto-generated method stub
 		visitor.visit(this);
 	}

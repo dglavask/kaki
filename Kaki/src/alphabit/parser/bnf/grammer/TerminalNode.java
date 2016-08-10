@@ -1,9 +1,11 @@
-package alphabit.parser.bnf;
+package alphabit.parser.bnf.grammer;
 
-public class AndExpressionNode implements GrammerNode{
+import alphabit.parser.bnf.GrammerNodeVisitor;
+
+public class TerminalNode implements GrammerNode{
 	private String value;
 
-	public AndExpressionNode(String value) {
+	public TerminalNode(String value) {
 	    this.value = value.replace("\"", "");
 	  }
 
@@ -15,7 +17,7 @@ public class AndExpressionNode implements GrammerNode{
 		return GrammerNode.TERMINAL_NODE;
 	}
 	
-	public void accept(ExpressionNodeVisitor visitor) {
+	public void accept(GrammerNodeVisitor visitor) {
 	    visitor.visit(this);
 	  }
 }

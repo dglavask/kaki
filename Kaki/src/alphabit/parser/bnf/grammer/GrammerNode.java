@@ -1,4 +1,6 @@
-package alphabit.parser.bnf;
+package alphabit.parser.bnf.grammer;
+
+import alphabit.parser.bnf.GrammerNodeVisitor;
 
 public interface GrammerNode{
 	public static final int EPSILON_NODE = 0;
@@ -8,8 +10,9 @@ public interface GrammerNode{
 	public static final int OR_NODE = 4;
 	public static final int AND_NODE = 5;
 	public static final int EOS = 6;
+	public static final int GENERIC = 100;
 	
 	public int getType();	
 	public String getValue();
-	public void accept(ExpressionNodeVisitor visitor);	
+	public void accept(GrammerNodeVisitor visitor);	
 }

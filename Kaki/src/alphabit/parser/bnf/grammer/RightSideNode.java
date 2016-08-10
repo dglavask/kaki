@@ -1,22 +1,22 @@
-package alphabit.parser.bnf;
+package alphabit.parser.bnf.grammer;
 
-import alphabit.parser.bnf.grammer.GrammerNode;
+import alphabit.parser.bnf.GrammerNodeVisitor;
 
-public class LeftSideNode implements GrammerNode{
+public class RightSideNode implements GrammerNode{
 	private String identifier;	
 
-	public LeftSideNode(String name) {
+	public RightSideNode(String name) {
 	    this.identifier = name;	    
 	  }
 
 	public int getType() {
 		//only for the case of case non sensitive grammer
-		return GrammerNode.NONTERMINAL_NODE;
+		return GrammerNode.GENERIC;
 	}	
 
 	public String getValue() {
 		// removing the <> from the non terminal
-		return identifier.substring(1, identifier.length() - 1);
+		return null;
 	}
 
 	public void accept(GrammerNodeVisitor visitor) {

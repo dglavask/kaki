@@ -1,4 +1,4 @@
-package alphabit.parser.bnf;
+package alphabit.parser.bnf.grammer;
 
 import org.jgrapht.graph.DefaultEdge;
 

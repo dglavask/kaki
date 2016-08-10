@@ -1,11 +1,11 @@
-package alphabit.parser.bnf;
+package alphabit.parser.bnf.grammer;
 
-import alphabit.parser.bnf.grammer.GrammerNode;
+import alphabit.parser.bnf.GrammerNodeVisitor;
 
-public class OrNode implements GrammerNode{
+public class AndNode implements GrammerNode{
 	private String value;
 
-	public OrNode(String value) {
+	public AndNode(String value) {
 	    this.value = value.replace("\"", "");
 	  }
 
@@ -14,7 +14,7 @@ public class OrNode implements GrammerNode{
 	}
 
 	public int getType() {
-		return GrammerNode.TERMINAL_NODE;
+		return GrammerNode.AND_NODE;
 	}
 	
 	public void accept(GrammerNodeVisitor visitor) {

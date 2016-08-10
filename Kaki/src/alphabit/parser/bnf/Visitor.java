@@ -1,6 +1,18 @@
 package alphabit.parser.bnf;
 
-public class Visitor implements ExpressionNodeVisitor{
+import alphabit.parser.bnf.grammer.AndNode;
+import alphabit.parser.bnf.grammer.AssigmentNode;
+import alphabit.parser.bnf.grammer.EofNode;
+import alphabit.parser.bnf.grammer.EosNode;
+import alphabit.parser.bnf.grammer.GrammerRootNode;
+import alphabit.parser.bnf.grammer.NonTerminalNode;
+import alphabit.parser.bnf.grammer.ProductionNode;
+import alphabit.parser.bnf.grammer.RightSideNode;
+import alphabit.parser.bnf.grammer.RuleNode;
+import alphabit.parser.bnf.grammer.RuleSetNode;
+import alphabit.parser.bnf.grammer.TerminalNode;
+
+public class Visitor implements GrammerNodeVisitor{
 
 	SourceFile source;
 	
@@ -24,7 +36,7 @@ public class Visitor implements ExpressionNodeVisitor{
 	}
 
 	@Override
-	public void visit(AndExpressionNode node) {
+	public void visit(AndNode node) {
 		System.out.println("I found an and " + node.getValue());
 	}
 
@@ -44,4 +56,41 @@ public class Visitor implements ExpressionNodeVisitor{
 		source.write("private void " + node.getValue() + "(){\n}");
 		
 	}
+
+	@Override
+	public void visit(RightSideNode rightSideNode) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(AssigmentNode assigmentNode) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(RuleNode ruleNode) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(RuleSetNode ruleSetNode) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(EofNode eofNode) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(GrammerRootNode grammerRootNode) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

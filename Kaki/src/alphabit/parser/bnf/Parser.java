@@ -3,17 +3,23 @@ package alphabit.parser.bnf;
 import java.util.List;
 
 import org.jgrapht.UndirectedGraph;
+import org.jgrapht.graph.ClassBasedEdgeFactory;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedMultigraph;
+import org.jgrapht.graph.SimpleGraph;
+
 import java.text.ParseException;
 import java.util.LinkedList;
 
 import alphabit.parser.bnf.Tokenizer.Token;
+import alphabit.parser.bnf.grammer.GrammerNode;
+import alphabit.parser.bnf.grammer.RelationshipEdge;
 
 public class Parser {
 	LinkedList<Token> tokens;
 	Token lookahead;
 	FiniteStateAutomaton fsa;
+	UndirectedGraph<GrammerNode, RelationshipEdge> graph;
 
 	//SyntaxTreeBuilder treeBuilder;
 
@@ -23,9 +29,10 @@ public class Parser {
 	 * @param tokens
 	 * @throws ParseException
 	 */
-	public UndirectedGraph<GrammerNode, DefaultEdge> parse(List<Token> tokens) throws ParseException {
+	public SimpleGraph<GrammerNode, DefaultEdge> parse(List<Token> tokens) throws ParseException {
 
 		DirectedMultigraph<State, Transition> stateGraph = new DirectedMultigraph<State, Transition>(Transition.class);
+		graph = new SimpleGraph<GrammerNode, RelationshipEdge>(new ClassBasedEdgeFactory<GrammerNode, RelationshipEdge>(RelationshipEdge.class));
 		State start = new State("start");// must have
 		State expectingProduction = new State("expectingProduction");
 		State expectingTerminalOrNonTerminal = new State("expectingTerminalOrNonTerminal");
