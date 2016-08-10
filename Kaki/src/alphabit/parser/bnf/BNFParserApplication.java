@@ -61,7 +61,7 @@ public class BNFParserApplication {
 		tokenizer.add("\\;", 6); // end of statement
 
 		System.out.println("Parsing file: " + inputFile + " ...");
-		UndirectedGraph<ExpressionNode, org.jgrapht.graph.DefaultEdge> graph = null;
+		UndirectedGraph<GrammerNode, org.jgrapht.graph.DefaultEdge> graph = null;
 		
 		try {
 			System.out.println(prep.getInput(inputFile));

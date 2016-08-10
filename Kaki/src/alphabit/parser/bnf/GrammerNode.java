@@ -1,6 +1,7 @@
 package alphabit.parser.bnf;
 
-public interface ExpressionNode{
+public interface GrammerNode{
+	public static final int EPSILON_NODE = 0;
 	public static final int NONTERMINAL_NODE = 1;
 	public static final int TERMINAL_NODE = 2;
 	public static final int PRODUCTION_NODE = 3;

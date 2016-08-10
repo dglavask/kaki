@@ -51,7 +51,7 @@ public class FiniteStateAutomaton {
 	}
 
 	public void step(Token current_token) throws ParseException {
-		System.out.println("FSA: Analizing " + current_token.sequence + " token... TOKRNID=" + current_token.token);
+		System.out.println("FSA: Analizing " + current_token.sequence + " token... TOKEN_ID=" + current_token.token);
 		changeState(FiniteStateAutomaton.currentState, current_token.token);
 	}
 

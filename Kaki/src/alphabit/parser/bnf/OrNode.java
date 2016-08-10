@@ -1,9 +1,9 @@
 package alphabit.parser.bnf;
 
-public class EosExpressionNode implements ExpressionNode{
+public class OrNode implements GrammerNode{
 	private String value;
 
-	public EosExpressionNode(String value) {
+	public OrNode(String value) {
 	    this.value = value.replace("\"", "");
 	  }
 
@@ -12,7 +12,7 @@ public class EosExpressionNode implements ExpressionNode{
 	}
 
 	public int getType() {
-		return ExpressionNode.TERMINAL_NODE;
+		return GrammerNode.TERMINAL_NODE;
 	}
 	
 	public void accept(ExpressionNodeVisitor visitor) {

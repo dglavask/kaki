@@ -1,10 +1,10 @@
 package alphabit.parser.bnf;
 
-public class TerminalExpressionNode implements ExpressionNode{
+public class ProductionNode implements GrammerNode{
 	private String value;
 
-	public TerminalExpressionNode(String value) {
-	    this.value = value.replace("\"", "");
+	public ProductionNode(String value) {
+	    this.value = value;
 	  }
 
 	public String getValue() {
@@ -12,7 +12,7 @@ public class TerminalExpressionNode implements ExpressionNode{
 	}
 
 	public int getType() {
-		return ExpressionNode.TERMINAL_NODE;
+		return GrammerNode.PRODUCTION_NODE;
 	}
 	
 	public void accept(ExpressionNodeVisitor visitor) {

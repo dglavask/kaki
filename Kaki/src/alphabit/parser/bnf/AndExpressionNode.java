@@ -1,6 +1,6 @@
 package alphabit.parser.bnf;
 
-public class AndExpressionNode implements ExpressionNode{
+public class AndExpressionNode implements GrammerNode{
 	private String value;
 
 	public AndExpressionNode(String value) {
@@ -12,7 +12,7 @@ public class AndExpressionNode implements ExpressionNode{
 	}
 
 	public int getType() {
-		return ExpressionNode.TERMINAL_NODE;
+		return GrammerNode.TERMINAL_NODE;
 	}
 	
 	public void accept(ExpressionNodeVisitor visitor) {

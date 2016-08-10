@@ -23,7 +23,7 @@ public class Parser {
 	 * @param tokens
 	 * @throws ParseException
 	 */
-	public UndirectedGraph<ExpressionNode, DefaultEdge> parse(List<Token> tokens) throws ParseException {
+	public UndirectedGraph<GrammerNode, DefaultEdge> parse(List<Token> tokens) throws ParseException {
 
 		DirectedMultigraph<State, Transition> stateGraph = new DirectedMultigraph<State, Transition>(Transition.class);
 		State start = new State("start");// must have

@@ -1,9 +1,9 @@
 package alphabit.parser.bnf;
 
-public class OrExpressionNode implements ExpressionNode{
+public class TerminalNode implements GrammerNode{
 	private String value;
 
-	public OrExpressionNode(String value) {
+	public TerminalNode(String value) {
 	    this.value = value.replace("\"", "");
 	  }
 
@@ -12,7 +12,7 @@ public class OrExpressionNode implements ExpressionNode{
 	}
 
 	public int getType() {
-		return ExpressionNode.TERMINAL_NODE;
+		return GrammerNode.TERMINAL_NODE;
 	}
 	
 	public void accept(ExpressionNodeVisitor visitor) {

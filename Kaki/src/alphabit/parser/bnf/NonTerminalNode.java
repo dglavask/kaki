@@ -1,14 +1,14 @@
 package alphabit.parser.bnf;
 
-public class NonTerminalExpressionNode implements ExpressionNode{
+public class NonTerminalNode implements GrammerNode{
 	private String identifier;	
 
-	public NonTerminalExpressionNode(String name) {
+	public NonTerminalNode(String name) {
 	    this.identifier = name;	    
 	  }
 
 	public int getType() {
-		return ExpressionNode.NONTERMINAL_NODE;
+		return GrammerNode.NONTERMINAL_NODE;
 	}	
 
 	public String getValue() {

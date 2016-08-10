@@ -6,10 +6,10 @@ import org.jgrapht.traverse.GraphIterator;
 
 public class Compiler {
 	Visitor visitor = new Visitor();
-	GraphIterator<ExpressionNode, RelationshipEdge> iterator;
+	GraphIterator<GrammerNode, RelationshipEdge> iterator;
     
-	public Compiler(UndirectedGraph<ExpressionNode,RelationshipEdge> graph){
-		this.iterator = new DepthFirstIterator<ExpressionNode, RelationshipEdge>(graph);
+	public Compiler(UndirectedGraph<GrammerNode,RelationshipEdge> graph){
+		this.iterator = new DepthFirstIterator<GrammerNode, RelationshipEdge>(graph);
 	}
 
 	public void compile(){

@@ -1,14 +1,15 @@
 package alphabit.parser.bnf;
 
-public class LeftNonTerminalExpressionNode implements ExpressionNode{
+public class LeftSideNode implements GrammerNode{
 	private String identifier;	
 
-	public LeftNonTerminalExpressionNode(String name) {
+	public LeftSideNode(String name) {
 	    this.identifier = name;	    
 	  }
 
 	public int getType() {
-		return ExpressionNode.NONTERMINAL_NODE;
+		//only for the case of case non sensitive grammer
+		return GrammerNode.NONTERMINAL_NODE;
 	}	
 
 	public String getValue() {
