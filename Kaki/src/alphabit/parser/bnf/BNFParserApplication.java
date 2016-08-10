@@ -61,7 +61,7 @@ public class BNFParserApplication {
 		tokenizer.add("\\;", 6); // end of statement
 
 		System.out.println("Parsing file: " + inputFile + " ...");
-		UndirectedGraph<ExpressionNode, RelationshipEdge> graph = null;
+		UndirectedGraph<ExpressionNode, org.jgrapht.graph.DefaultEdge> graph = null;
 		
 		try {
 			System.out.println(prep.getInput(inputFile));
@@ -73,14 +73,13 @@ public class BNFParserApplication {
 			System.out.println("Parser starting ...");
 
 			//long startTime = System.nanoTime();
-			graph = parser.parse(tokenizer.getTokens());
-			System.out.println("Parsing finished successfully!");
+			graph = parser.parse(tokenizer.getTokens());			
 			//long endTime = System.nanoTime();
 			//System.out.println("Parsing time = " + (endTime - startTime) / 1000000 + "msec");
-			System.out.println("Compiling starting ...");
-			Compiler compiler = new Compiler(graph);
-			compiler.compile();
-			System.out.println("Finish compiling ...");
+			//System.out.println("Compiling starting ...");
+			//Compiler compiler = new Compiler(graph);
+			//compiler.compile();
+			//System.out.println("Finish compiling ...");
 
 		} catch (ParseException e) {
 			e.printStackTrace();
