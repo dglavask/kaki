@@ -29,8 +29,10 @@ public class FiniteStateAutomaton {
 
 		@Override
 		public void visit(Transition node) {
-			// TODO Auto-generated method stub
 			System.out.println("FSA: Going over transition: " + node.getName());
+			// TODO Auto-generated method stub
+			// Start building a grammer tree
+			
 			
 
 		}

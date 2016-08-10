@@ -1,4 +1,4 @@
-//<file> => <statement> & "\n" & <morest> ;
+<file> => <statement> & "\n" & <morest> ;
 //<morest> =>  <statement> & "\n" & <morest>  ;
 //<morest> => "" ;
 <statement> => <name> & <items> ;
