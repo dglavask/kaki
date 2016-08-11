@@ -5,11 +5,12 @@ import alphabit.parser.bnf.grammer.AssigmentNode;
 import alphabit.parser.bnf.grammer.EofNode;
 import alphabit.parser.bnf.grammer.EosNode;
 import alphabit.parser.bnf.grammer.GrammerRootNode;
+import alphabit.parser.bnf.grammer.LeftSideNode;
 import alphabit.parser.bnf.grammer.NonTerminalNode;
 import alphabit.parser.bnf.grammer.ProductionNode;
 import alphabit.parser.bnf.grammer.RightSideNode;
 import alphabit.parser.bnf.grammer.RuleNode;
-import alphabit.parser.bnf.grammer.RuleSetNode;
+import alphabit.parser.bnf.grammer.StatementNode;
 import alphabit.parser.bnf.grammer.TerminalNode;
 
 public class Visitor implements GrammerNodeVisitor{
@@ -76,7 +77,7 @@ public class Visitor implements GrammerNodeVisitor{
 	}
 
 	@Override
-	public void visit(RuleSetNode ruleSetNode) {
+	public void visit(StatementNode ruleSetNode) {
 		// TODO Auto-generated method stub
 		
 	}

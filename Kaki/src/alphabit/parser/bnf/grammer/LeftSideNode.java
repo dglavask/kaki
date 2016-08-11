@@ -1,6 +1,6 @@
-package alphabit.parser.bnf;
+package alphabit.parser.bnf.grammer;
 
-import alphabit.parser.bnf.grammer.GrammerNode;
+import alphabit.parser.bnf.GrammerNodeVisitor;
 
 public class LeftSideNode implements GrammerNode{
 	private String identifier;	

@@ -2,10 +2,10 @@ package alphabit.parser.bnf.grammer;
 
 import alphabit.parser.bnf.GrammerNodeVisitor;
 
-public class RuleSetNode implements GrammerNode{
+public class StatementNode implements GrammerNode{
 	private String identifier;	
 
-	public RuleSetNode(String name) {
+	public StatementNode(String name) {
 	    this.identifier = name;	    
 	  }
 

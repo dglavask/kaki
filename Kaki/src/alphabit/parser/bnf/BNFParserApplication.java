@@ -4,29 +4,27 @@ import java.text.ParseException;
 import java.util.Map;
 import javax.swing.JFrame;
 import org.jgraph.JGraph;
-import org.jgraph.graph.DefaultEdge;
 import org.jgrapht.UndirectedGraph;
 import org.jgrapht.ext.JGraphModelAdapter;
 import com.jgraph.layout.JGraphFacade;
 import com.jgraph.layout.hierarchical.JGraphHierarchicalLayout;
-
 import alphabit.parser.bnf.grammer.GrammerNode;
+import alphabit.parser.bnf.grammer.RelationshipEdge;
 
 public class BNFParserApplication {
 
-	public static void showGraph(UndirectedGraph<String,DefaultEdge> graph ){
+	public static void showGraph(UndirectedGraph<GrammerNode, RelationshipEdge> graph ){
 		JFrame frame = new JFrame();
 		frame.setSize(400, 400);
-		JGraph jgraph = new JGraph(new JGraphModelAdapter<String, DefaultEdge>(graph));
+		JGraph jgraph = new JGraph(new JGraphModelAdapter<GrammerNode, RelationshipEdge>(graph));
 		final  JGraphHierarchicalLayout hir = new JGraphHierarchicalLayout();
 		final JGraphFacade graphFacade = new JGraphFacade(jgraph);      
 		hir.run(graphFacade);
 		final Map<?, ?> nestedMap = graphFacade.createNestedMap(true, true);
 		jgraph.getGraphLayoutCache().edit(nestedMap);
-		
-		
-		frame.getContentPane().add(jgraph);
+		frame.getContentPane().add(jgraph);		
 		frame.setVisible(true);
+		
 	}
 	
 	public static String getTokenName(int sequence) {
@@ -63,7 +61,7 @@ public class BNFParserApplication {
 		tokenizer.add("\\;", 6); // end of statement
 
 		System.out.println("Parsing file: " + inputFile + " ...");
-		UndirectedGraph<GrammerNode, org.jgrapht.graph.DefaultEdge> graph = null;
+		UndirectedGraph<GrammerNode, RelationshipEdge> graph = null;
 		
 		try {
 			System.out.println(prep.getInput(inputFile));
@@ -87,7 +85,7 @@ public class BNFParserApplication {
 			e.printStackTrace();
 		}
 		
-		//showGraph(sgraph);
+		showGraph(graph);
 		
 
 	}
