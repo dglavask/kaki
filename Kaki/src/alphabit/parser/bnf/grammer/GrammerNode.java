@@ -14,5 +14,7 @@ public interface GrammerNode{
 	
 	public int getType();	
 	public String getValue();
+	public void setType(int type);	
+	public void setValue(String value);
 	public void accept(GrammerNodeVisitor visitor);	
 }

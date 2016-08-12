@@ -20,4 +20,17 @@ public class ProductionNode implements GrammerNode{
 	public void accept(GrammerNodeVisitor visitor) {
 	    visitor.visit(this);
 	  }
+
+	@Override
+	public void setType(int type) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setValue(String value) {
+		this.value = value;
+		// TODO Auto-generated method stub
+		
+	}
 }

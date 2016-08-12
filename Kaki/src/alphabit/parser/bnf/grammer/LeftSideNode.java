@@ -23,4 +23,16 @@ public class LeftSideNode implements GrammerNode{
 		// TODO Auto-generated method stub
 		visitor.visit(this);
 	}
+
+	@Override
+	public void setType(int type) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setValue(String value) {
+		// TODO Auto-generated method stub
+		
+	}
 }

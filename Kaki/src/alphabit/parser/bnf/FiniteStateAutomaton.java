@@ -13,6 +13,7 @@ import org.jgrapht.traverse.DepthFirstIterator;
 import org.jgrapht.traverse.GraphIterator;
 
 import alphabit.parser.bnf.Tokenizer.Token;
+import alphabit.parser.bnf.grammer.StatementNode;
 import alphabit.parser.bnf.grammer.TerminalNode;
 import alphabit.parser.bnf.grammer.AndNode;
 import alphabit.parser.bnf.grammer.EofNode;
@@ -30,8 +31,8 @@ public class FiniteStateAutomaton {
 
 	private static UndirectedGraph<GrammerNode, RelationshipEdge> syntaxTree;
 	private static int i;
-	
-	private static String getID(){
+
+	private static String getID() {
 		return Integer.toString(i++);
 	}
 
@@ -44,11 +45,13 @@ public class FiniteStateAutomaton {
 	public static class Visitor implements StateGraphVisitor {
 
 		private static RuleNode currentRule = null;
-		private static GrammerNode homeNode = null;
-		private static GrammerNode nextNodeToBuild = null;
+		private static GrammerNode currentAndOr = null;
 		private static GrammerRootNode rootNode = null;
 		private static RightSideNode currentRightSide = null;
-		
+		private static LeftSideNode currentLeftSide = null;
+		private static ProductionNode currentProductionNode = null;
+		private static GrammerNode currentTerminalOrNonTerminal = null;
+
 		@Override
 		public void visit(State node) {
 			System.out.println("FSA: I am in state: " + node.getName());
@@ -57,132 +60,139 @@ public class FiniteStateAutomaton {
 
 		@Override
 		public void visit(Transition node) {
-			// TODO Auto-generated method stub
-			System.out.println("FSA: Going over transition: " + node.getName());			
+			System.out.println("FSA: Going over transition: " + node.getName());
 
 			switch (node.getName()) {
 			case "recievedLeftSideTerminalOnStart":
+
 				GrammerRootNode grn = new GrammerRootNode("File");
 				rootNode = grn;
 				syntaxTree.addVertex(grn);
-				System.out.println("FSA BUILD: Creating node GrammerRootNode");
-				//syntaxTree.addVertex(sn);				
-				//System.out.println("FSA BUILD: Creating node Statement");
+
 				RuleNode rn = new RuleNode("Rule");
 				syntaxTree.addVertex(rn);
-				System.out.println("FSA BUILD: Creating node Rule");
-				//syntaxTree.addEdge(grn, sn, new RelationshipEdge(grn,sn,getID()));
-				syntaxTree.addEdge(rootNode, rn,new RelationshipEdge(rootNode,rn,getID()));
+				syntaxTree.addEdge(rootNode, rn, new RelationshipEdge(rootNode, rn, getID()));
+
 				currentRule = rn;
-				nextNodeToBuild = new LeftSideNode(node.getName());
-				break;
-			case "recievedProduction":
-				System.out.println("FSA BUILD: Build nextNode -> left non terminal");
-				ProductionNode pn = new ProductionNode(node.getName());
+
+				ProductionNode pn = new ProductionNode("Production");
+
+				currentProductionNode = pn;
+
 				syntaxTree.addVertex(pn);
-				syntaxTree.addEdge(currentRule,pn,new RelationshipEdge(currentRule,pn,getID()));
-				System.out.println("FSA BUILD: Creating node Production");
-				syntaxTree.addVertex(nextNodeToBuild);
-				System.out.println("FSA BUILD: Creating node LeftSideNode");
-				syntaxTree.addEdge(pn, nextNodeToBuild,new RelationshipEdge(pn,nextNodeToBuild,getID()));
-				homeNode = pn;
-				break;
-			case "recievedTerminal":
-				if (currentRightSide == null){
-					RightSideNode rsn = new RightSideNode("RightSideNode");
-					currentRightSide = rsn;
-					
-					syntaxTree.addVertex(rsn);
-					System.out.println("FSA BUILD: Creating node RightSideNode");
-					syntaxTree.addEdge(homeNode, currentRightSide,new RelationshipEdge(homeNode,currentRightSide,getID()));
-					homeNode =rsn;
-				}
-				
-				System.out.println("FSA BUILD: Connect  homeNode with RightSideNode");
-				TerminalNode tn = new TerminalNode(node.getName());
-				nextNodeToBuild = tn;
-				//System.out.println("FSA BUILD: Creating node TerminalNode");
+				syntaxTree.addEdge(rn, pn, new RelationshipEdge(rn, pn, getID()));
+
+				LeftSideNode lsn = new LeftSideNode(node.getName());
+				syntaxTree.addVertex(lsn);
+
+				currentLeftSide = lsn;
+
+				syntaxTree.addEdge(pn, lsn, new RelationshipEdge(pn, lsn, getID()));
+
+				RightSideNode rsn = new RightSideNode(node.getName());
+				syntaxTree.addVertex(rsn);
+				currentRightSide = rsn;
+				syntaxTree.addEdge(pn, rsn, new RelationshipEdge(pn, rsn, getID()));
+
+				NonTerminalNode ntn = new NonTerminalNode(node.getName());
+				syntaxTree.addVertex(ntn);
+
+				syntaxTree.addEdge(lsn, ntn, new RelationshipEdge(lsn, ntn, getID()));
 
 				break;
+			case "recievedProduction":
+				currentProductionNode.setValue(node.getName());
+				break;
 			case "recievedNonTerminal":
-				if (currentRightSide == null){
-					RightSideNode rsn = new RightSideNode("RightSideNode");
-					currentRightSide = rsn;
-					
-					syntaxTree.addVertex(rsn);
-					System.out.println("FSA BUILD: Creating node RightSideNode");
-					syntaxTree.addEdge(homeNode, currentRightSide,new RelationshipEdge(homeNode,currentRightSide,getID()));
-					homeNode =rsn;
-				}
-				
-				System.out.println("FSA BUILD: Connect  homeNode with RightSideNode");
-				NonTerminalNode ntn = new NonTerminalNode(node.getName());
-				nextNodeToBuild = ntn;
-				//System.out.println("FSA BUILD: Creating node NonTerminalNode");
-				// set home to right side node
+				NonTerminalNode ntn1 = new NonTerminalNode(node.getName());
+				currentTerminalOrNonTerminal = ntn1;
+				syntaxTree.addVertex(ntn1);
+				break;
+			case "recievedTerminal":
+				TerminalNode tn = new TerminalNode(node.getName());
+				currentTerminalOrNonTerminal = tn;
+				syntaxTree.addVertex(tn);
 				break;
 			case "recievedAnd":
 				AndNode an = new AndNode(node.getName());
 				syntaxTree.addVertex(an);
-				System.out.println("FSA BUILD: Creating node AndNode");
-				syntaxTree.addEdge(homeNode, an,new RelationshipEdge(homeNode,an,getID()));
-				System.out.println("FSA BUILD: Connect  homeNode with AndNode");
-				syntaxTree.addVertex(nextNodeToBuild);
-				syntaxTree.addEdge(an, nextNodeToBuild,new RelationshipEdge(an,nextNodeToBuild,getID()));
-				homeNode=an;
+				if (currentAndOr == null) {
+					currentAndOr = an;
+					syntaxTree.addEdge(currentRightSide, an, new RelationshipEdge(currentRightSide, an, getID()));
+					syntaxTree.addEdge(currentAndOr, currentTerminalOrNonTerminal,
+							new RelationshipEdge(currentAndOr, currentTerminalOrNonTerminal, getID()));
+
+				} else {
+					syntaxTree.addEdge(currentAndOr, an, new RelationshipEdge(currentAndOr, an, getID()));
+					currentAndOr = an;
+					syntaxTree.addEdge(currentAndOr, currentTerminalOrNonTerminal,
+							new RelationshipEdge(currentAndOr, currentTerminalOrNonTerminal, getID()));
+
+				}
+				currentTerminalOrNonTerminal = null;
 				break;
 			case "recievedOr":
 				OrNode on = new OrNode(node.getName());
 				syntaxTree.addVertex(on);
-				System.out.println("FSA BUILD: Creating node OrNode");
-				syntaxTree.addEdge(homeNode, on,new RelationshipEdge(homeNode,currentRightSide,getID()));
-				System.out.println("FSA BUILD: Connect  homeNode with OrNode");
-				syntaxTree.addVertex(nextNodeToBuild);
-				syntaxTree.addEdge(on, nextNodeToBuild,new RelationshipEdge(on,nextNodeToBuild,getID()));
-				homeNode=on;
+				if (currentAndOr == null) {
+					currentAndOr = on;
+					syntaxTree.addEdge(currentRightSide, on, new RelationshipEdge(currentRightSide, on, getID()));
+					syntaxTree.addEdge(currentAndOr, currentTerminalOrNonTerminal,
+							new RelationshipEdge(currentAndOr, currentTerminalOrNonTerminal, getID()));
+
+				} else {
+					syntaxTree.addEdge(currentAndOr, on, new RelationshipEdge(currentAndOr, on, getID()));
+					currentAndOr = on;
+					syntaxTree.addEdge(currentAndOr, currentTerminalOrNonTerminal,
+							new RelationshipEdge(currentAndOr, currentTerminalOrNonTerminal, getID()));
+
+				}
+				currentTerminalOrNonTerminal = null;
 				break;
 			case "recievedEOS":
-				syntaxTree.addVertex(nextNodeToBuild); // builds the terminal
-				EosNode en = new EosNode(node.getName());
-				syntaxTree.addVertex(en);
-				System.out.println("FSA BUILD: Creating node EosNode");
-				syntaxTree.addEdge(currentRule, en,new RelationshipEdge(currentRule,en,getID()));
-				System.out.println("FSA BUILD: Connect  currentRule with EosNode");
+				EosNode eosn = new EosNode(node.getName());
+				syntaxTree.addVertex(eosn);
+				syntaxTree.addEdge(currentRule, eosn, new RelationshipEdge(currentRule, eosn, getID()));
+				if (currentAndOr == null) {
+					syntaxTree.addEdge(currentRightSide, currentTerminalOrNonTerminal,
+							new RelationshipEdge(currentRightSide, currentTerminalOrNonTerminal, getID()));
+				} else {
+					syntaxTree.addEdge(currentAndOr, currentTerminalOrNonTerminal,
+							new RelationshipEdge(currentAndOr, currentTerminalOrNonTerminal, getID()));
+				}
 				currentRule = null;
+				currentAndOr = null;
+				currentRightSide = null;
+				currentLeftSide = null;
+				currentProductionNode = null;
+				currentTerminalOrNonTerminal = null;
+
 				break;
 			case "recievedLeftSideTerminal":
-				// get parent from current rule
-				/*StatementNode parent = null;				
-				Iterator<RelationshipEdge> iterator = syntaxTree.edgesOf(currentRule).iterator();
-			    while(iterator.hasNext()) {
-			    	RelationshipEdge con = iterator.next();
-			        if(con.toString()=="parent") {
-			        	parent=(StatementNode) syntaxTree.getEdgeSource(con);
-			        }
-			    }								
-				
-				StatementNode snNew = new StatementNode("Statement");
-				syntaxTree.addVertex(snNew);
-				System.out.println("FSA BUILD: Creating node Statement");
-				syntaxTree.addEdge(parent, snNew,new RelationshipEdge(parent,snNew,getID()));
-				*/
-				RuleNode rnNew = new RuleNode("Rule");
-				syntaxTree.addVertex(rnNew);
-				syntaxTree.addEdge(rootNode, rnNew,new RelationshipEdge(rootNode,rnNew,getID()));
-				System.out.println("FSA BUILD: Creating node Rule");
-				// set currentRule to newly created rule
-				currentRule = rnNew;
+				RuleNode rn_next = new RuleNode("Rule");
+				syntaxTree.addVertex(rn_next);
+				syntaxTree.addEdge(rootNode, rn_next, new RelationshipEdge(rootNode, rn_next, getID()));
+				currentRule = rn_next;
+				ProductionNode pn_next = new ProductionNode("Production");
+				currentProductionNode = pn_next;
+				syntaxTree.addVertex(pn_next);
+				syntaxTree.addEdge(rn_next, pn_next, new RelationshipEdge(rn_next, pn_next, getID()));
+				LeftSideNode lsn_next = new LeftSideNode(node.getName());
+				syntaxTree.addVertex(lsn_next);
+				currentLeftSide = lsn_next;
+				syntaxTree.addEdge(pn_next, lsn_next, new RelationshipEdge(pn_next, lsn_next, getID()));
+				RightSideNode rsn_next = new RightSideNode(node.getName());
+				syntaxTree.addVertex(rsn_next);
+				currentRightSide = rsn_next;
+				syntaxTree.addEdge(pn_next, rsn_next, new RelationshipEdge(pn_next, rsn_next, getID()));
+				NonTerminalNode ntn_next = new NonTerminalNode(node.getName());
+				syntaxTree.addVertex(ntn_next);
+				syntaxTree.addEdge(lsn_next, ntn_next, new RelationshipEdge(lsn_next, ntn_next, getID()));
 				break;
 			case "recievedEOF":
-				
-				syntaxTree.addVertex(nextNodeToBuild);
-				
 				EofNode eofn = new EofNode(node.getName());
 				syntaxTree.addVertex(eofn);
-				System.out.println("FSA BUILD: Creating node EOFNode");
-				syntaxTree.addEdge(rootNode, eofn,new RelationshipEdge(homeNode,currentRightSide,getID()));
-				System.out.println("FSA BUILD: Connect  rootNode with EOFNode");				
-				syntaxTree.addEdge(homeNode, nextNodeToBuild,new RelationshipEdge(homeNode,nextNodeToBuild,getID()));				
+				syntaxTree.addEdge(rootNode, eofn, new RelationshipEdge(rootNode, eofn, getID()));
 				break;
 			}
 

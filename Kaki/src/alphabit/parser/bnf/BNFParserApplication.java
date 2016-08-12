@@ -1,13 +1,21 @@
 package alphabit.parser.bnf;
 
+import java.awt.GridLayout;
 import java.text.ParseException;
 import java.util.Map;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
 import org.jgraph.JGraph;
 import org.jgrapht.UndirectedGraph;
 import org.jgrapht.ext.JGraphModelAdapter;
+import org.jgrapht.graph.ClassBasedEdgeFactory;
+import org.jgrapht.graph.SimpleGraph;
+
 import com.jgraph.layout.JGraphFacade;
 import com.jgraph.layout.hierarchical.JGraphHierarchicalLayout;
+
 import alphabit.parser.bnf.grammer.GrammerNode;
 import alphabit.parser.bnf.grammer.RelationshipEdge;
 
@@ -16,7 +24,7 @@ public class BNFParserApplication {
 	public static void showGraph(UndirectedGraph<GrammerNode, RelationshipEdge> graph ){
 		JFrame frame = new JFrame();
 		frame.setSize(400, 400);
-		JGraph jgraph = new JGraph(new JGraphModelAdapter<GrammerNode, RelationshipEdge>(graph));
+		JGraph jgraph = new JGraph(new JGraphModelAdapter<GrammerNode, RelationshipEdge>(graph/*new SimpleGraph<GrammerNode, RelationshipEdge>(/*new ClassBasedEdgeFactory<GrammerNode, RelationshipEdge>(RelationshipEdge.class)))*/));
 		final  JGraphHierarchicalLayout hir = new JGraphHierarchicalLayout();
 		final JGraphFacade graphFacade = new JGraphFacade(jgraph);      
 		hir.run(graphFacade);
@@ -73,7 +81,8 @@ public class BNFParserApplication {
 			System.out.println("Parser starting ...");
 
 			//long startTime = System.nanoTime();
-			graph = parser.parse(tokenizer.getTokens());			
+			graph = parser.parse(tokenizer.getTokens());
+			//parser.showGraph();
 			//long endTime = System.nanoTime();
 			//System.out.println("Parsing time = " + (endTime - startTime) / 1000000 + "msec");
 			//System.out.println("Compiling starting ...");

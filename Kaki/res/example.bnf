@@ -1,6 +1,14 @@
-<file> => <statement> & "\n" & <morest> ;
-<morest> =>  <statement> & "\n" & <morest>  ;
-//<morest> => "" ;
-<statement> => <name> & <items> ;
-//<items> => <item> & <items> ;
-//<items> => "" ;
+<file> => <hdr> & <row> ;
+<row> => <row>;
+<row> => "";
+<hdr> => <row>;
+<row> => <field> & <morefield> & "\r" & "\n" ;
+
+<morefield> => "," & <field> & <morefield>;
+<morefield> => "";
+
+
+<field> = > <text> | <string> | "";
+
+<TEXT>  => "text";
+<STRING> => "string" ;

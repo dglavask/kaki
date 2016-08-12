@@ -20,4 +20,16 @@ public class EosNode implements GrammerNode{
 	public void accept(GrammerNodeVisitor visitor) {
 	    visitor.visit(this);
 	  }
+
+	@Override
+	public void setType(int type) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setValue(String value) {
+		// TODO Auto-generated method stub
+		
+	}
 }

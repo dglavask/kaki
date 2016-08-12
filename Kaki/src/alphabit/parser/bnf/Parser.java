@@ -1,9 +1,18 @@
 package alphabit.parser.bnf;
 
 import java.util.List;
+import java.util.Map;
 
+import javax.swing.JFrame;
+
+import org.jgraph.JGraph;
+import org.jgraph.graph.GraphModel;
 import org.jgrapht.UndirectedGraph;
+import org.jgrapht.ext.JGraphModelAdapter;
 import org.jgrapht.graph.DirectedMultigraph;
+
+import com.jgraph.layout.JGraphFacade;
+import com.jgraph.layout.hierarchical.JGraphHierarchicalLayout;
 
 import java.text.ParseException;
 import java.util.LinkedList;
@@ -16,6 +25,7 @@ public class Parser {
 	LinkedList<Token> tokens;
 	Token lookahead;
 	FiniteStateAutomaton fsa;
+	static DirectedMultigraph<State, Transition> stateGraph;
 	//UndirectedGraph<GrammerNode, RelationshipEdge> graph;
 
 	//SyntaxTreeBuilder treeBuilder;
@@ -28,7 +38,7 @@ public class Parser {
 	 */
 	public UndirectedGraph<GrammerNode, RelationshipEdge> parse(List<Token> tokens) throws ParseException {
 
-		DirectedMultigraph<State, Transition> stateGraph = new DirectedMultigraph<State, Transition>(Transition.class);
+		stateGraph = new DirectedMultigraph<State, Transition>(Transition.class);
 		//graph = new SimpleGraph<GrammerNode, RelationshipEdge>(new ClassBasedEdgeFactory<GrammerNode, RelationshipEdge>(RelationshipEdge.class));
 		State start = new State("start");// must have
 		State expectingProduction = new State("expectingProduction");
@@ -67,9 +77,6 @@ public class Parser {
 		this.tokens = new LinkedList<Token>(tokens);
 		lookahead = this.tokens.getFirst();
 
-		//treeBuilder = new SyntaxTreeBuilder();
-		// start();
-
 		do {
 			fsa.step(lookahead);
 			if (lookahead.token == Token.EPSILON) {
@@ -89,5 +96,24 @@ public class Parser {
 			lookahead = new Token(Token.EPSILON, "");
 		else
 			lookahead = tokens.getFirst();
-	}	
+	}
+	
+	public static void showGraph(){
+		JFrame frame = new JFrame();
+		frame.setSize(400, 400);
+		JGraph jgraph = new JGraph(new JGraphModelAdapter<State, Transition>(stateGraph));
+		final  JGraphHierarchicalLayout hir = new JGraphHierarchicalLayout();
+		final JGraphFacade graphFacade = new JGraphFacade(jgraph);      
+		hir.run(graphFacade);
+		final Map<?, ?> nestedMap = graphFacade.createNestedMap(true, true);
+		jgraph.getGraphLayoutCache().edit(nestedMap);
+		
+		//JPanel panel = new JPanel(new GridLayout(0, 1));
+		//panel.add(jgraph);
+		//frame.add(new JScrollPane(panel));
+		//frame.pack();
+		frame.getContentPane().add(jgraph);		
+		frame.setVisible(true);
+		
+	}
 }
