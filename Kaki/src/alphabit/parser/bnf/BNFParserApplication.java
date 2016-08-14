@@ -82,7 +82,7 @@ public class BNFParserApplication {
 
 			//long startTime = System.nanoTime();
 			graph = parser.parse(tokenizer.getTokens());
-			//parser.showGraph();
+			parser.showGraph();
 			//long endTime = System.nanoTime();
 			//System.out.println("Parsing time = " + (endTime - startTime) / 1000000 + "msec");
 			//System.out.println("Compiling starting ...");

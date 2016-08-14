@@ -4,7 +4,17 @@ Rules
 State Machine
 
 <statement> => <name> & <items> ;
+<name> => "3"
 
+
+
+
+3asdasd
+
+
+
+
+ 
 public bool statement(){
 	name();
 	items();

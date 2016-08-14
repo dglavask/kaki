@@ -1,14 +1,15 @@
-<file> => <hdr> & <row> ;
-<row> => <row>;
-<row> => "";
-<hdr> => <row>;
-<row> => <field> & <morefield> & "\r" & "\n" ;
+//<STRING> => "string" ;
 
-<morefield> => "," & <field> & <morefield>;
-<morefield> => "";
+//<file> => <hdr> & <row> ;
+<row> => <row> & "jooj";
+<row> => "" & <a>;
+//<hdr> => <row>;
+//<row> => <field> & <morefield> & "\r" & "\n" ;
+
+//<morefield> => "," & <field> & <morefield>;
+//<morefield> => "";
 
 
-<field> = > <text> | <string> | "";
+//<field> = > <text> | <string> | "";
 
-<TEXT>  => "text";
-<STRING> => "string" ;
+//<TEXT>  => "text";
